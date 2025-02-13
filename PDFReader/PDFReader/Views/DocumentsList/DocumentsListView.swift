@@ -29,7 +29,7 @@ struct DocumentsListView: View {
                         LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 115, maximum: 115)), count: 3),
                                   spacing: 10) {
                             ForEach(viewModel.documents) { document in
-                                NavigationLink(destination: DocumentReaderView(document: document)) {
+                                NavigationLink(destination: DocumentReaderView(document: document, viewModel: viewModel)) {
                                     DocumentsListViewCell(document: document)
                                 }
                             }
@@ -66,7 +66,7 @@ struct DocumentsListView: View {
             .background {
                 if let createdDocument = viewModel.createdDocument {
                     NavigationLink(
-                        destination: DocumentReaderView(document: createdDocument),
+                        destination: DocumentReaderView(document: createdDocument, viewModel: viewModel),
                         isActive: $viewModel.showDocumentReader
                     ) {
                         EmptyView()
