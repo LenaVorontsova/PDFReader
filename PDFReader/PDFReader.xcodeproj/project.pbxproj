@@ -6,17 +6,24 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F21FE8032D5E329E00821A88 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8002D5E329E00821A88 /* ContentView.swift */; };
+		F21FE8042D5E329E00821A88 /* PDFReaderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8012D5E329E00821A88 /* PDFReaderApp.swift */; };
+		F21FE8052D5E329E00821A88 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21FE7FD2D5E329E00821A88 /* Preview Assets.xcassets */; };
+		F21FE8062D5E329E00821A88 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F21FE7FF2D5E329E00821A88 /* Assets.xcassets */; };
+		F21FE80A2D5E32FB00821A88 /* WelcomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8092D5E32FB00821A88 /* WelcomeView.swift */; };
+		F21FE80C2D5E3A6900821A88 /* WelcomeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE80B2D5E3A6900821A88 /* WelcomeViewCell.swift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
+		F21FE7FD2D5E329E00821A88 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		F21FE7FF2D5E329E00821A88 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F21FE8002D5E329E00821A88 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F21FE8012D5E329E00821A88 /* PDFReaderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFReaderApp.swift; sourceTree = "<group>"; };
+		F21FE8092D5E32FB00821A88 /* WelcomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeView.swift; sourceTree = "<group>"; };
+		F21FE80B2D5E3A6900821A88 /* WelcomeViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewCell.swift; sourceTree = "<group>"; };
 		F243F3C82D5CA9BB002DA6F9 /* PDFReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		F243F3CA2D5CA9BB002DA6F9 /* PDFReader */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PDFReader;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F243F3C52D5CA9BB002DA6F9 /* Frameworks */ = {
@@ -29,10 +36,47 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F21FE7FE2D5E329E00821A88 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				F21FE7FD2D5E329E00821A88 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		F21FE8022D5E329E00821A88 /* PDFReader */ = {
+			isa = PBXGroup;
+			children = (
+				F21FE8072D5E32A200821A88 /* Views */,
+				F21FE7FE2D5E329E00821A88 /* Preview Content */,
+				F21FE7FF2D5E329E00821A88 /* Assets.xcassets */,
+				F21FE8002D5E329E00821A88 /* ContentView.swift */,
+				F21FE8012D5E329E00821A88 /* PDFReaderApp.swift */,
+			);
+			path = PDFReader;
+			sourceTree = "<group>";
+		};
+		F21FE8072D5E32A200821A88 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F21FE8082D5E32B200821A88 /* WelcomeScreen */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F21FE8082D5E32B200821A88 /* WelcomeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				F21FE8092D5E32FB00821A88 /* WelcomeView.swift */,
+				F21FE80B2D5E3A6900821A88 /* WelcomeViewCell.swift */,
+			);
+			path = WelcomeScreen;
+			sourceTree = "<group>";
+		};
 		F243F3BF2D5CA9BB002DA6F9 = {
 			isa = PBXGroup;
 			children = (
-				F243F3CA2D5CA9BB002DA6F9 /* PDFReader */,
+				F21FE8022D5E329E00821A88 /* PDFReader */,
 				F243F3C92D5CA9BB002DA6F9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,9 +103,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				F243F3CA2D5CA9BB002DA6F9 /* PDFReader */,
 			);
 			name = PDFReader;
 			packageProductDependencies = (
@@ -109,6 +150,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F21FE8052D5E329E00821A88 /* Preview Assets.xcassets in Resources */,
+				F21FE8062D5E329E00821A88 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +162,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F21FE8032D5E329E00821A88 /* ContentView.swift in Sources */,
+				F21FE80A2D5E32FB00821A88 /* WelcomeView.swift in Sources */,
+				F21FE8042D5E329E00821A88 /* PDFReaderApp.swift in Sources */,
+				F21FE80C2D5E3A6900821A88 /* WelcomeViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -260,6 +307,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -267,6 +315,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = evoroncova.PDFReader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -289,6 +341,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,6 +349,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = evoroncova.PDFReader;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
