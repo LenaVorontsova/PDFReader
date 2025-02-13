@@ -19,6 +19,7 @@
 		F21FE8172D5E450C00821A88 /* DocumentsListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8162D5E450C00821A88 /* DocumentsListViewCell.swift */; };
 		F21FE81F2D5E512B00821A88 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE81E2D5E512B00821A88 /* ImagePicker.swift */; };
 		F21FE8212D5E52FE00821A88 /* DocumentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8202D5E52FE00821A88 /* DocumentPage.swift */; };
+		F21FE8242D5E5E7E00821A88 /* DocumentReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8232D5E5E7E00821A88 /* DocumentReaderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		F21FE8162D5E450C00821A88 /* DocumentsListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsListViewCell.swift; sourceTree = "<group>"; };
 		F21FE81E2D5E512B00821A88 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		F21FE8202D5E52FE00821A88 /* DocumentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPage.swift; sourceTree = "<group>"; };
+		F21FE8232D5E5E7E00821A88 /* DocumentReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReaderView.swift; sourceTree = "<group>"; };
 		F243F3C82D5CA9BB002DA6F9 /* PDFReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -73,6 +75,7 @@
 		F21FE8072D5E32A200821A88 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F21FE8222D5E5E6E00821A88 /* DocumentReader */,
 				F21FE80D2D5E419200821A88 /* DocumentsList */,
 				F21FE8082D5E32B200821A88 /* WelcomeScreen */,
 			);
@@ -121,6 +124,14 @@
 				F21FE81E2D5E512B00821A88 /* ImagePicker.swift */,
 			);
 			path = UIKitComponents;
+			sourceTree = "<group>";
+		};
+		F21FE8222D5E5E6E00821A88 /* DocumentReader */ = {
+			isa = PBXGroup;
+			children = (
+				F21FE8232D5E5E7E00821A88 /* DocumentReaderView.swift */,
+			);
+			path = DocumentReader;
 			sourceTree = "<group>";
 		};
 		F243F3BF2D5CA9BB002DA6F9 = {
@@ -222,6 +233,7 @@
 				F21FE80F2D5E42F600821A88 /* DocumentsListViewModel.swift in Sources */,
 				F21FE80C2D5E3A6900821A88 /* WelcomeViewCell.swift in Sources */,
 				F21FE8172D5E450C00821A88 /* DocumentsListViewCell.swift in Sources */,
+				F21FE8242D5E5E7E00821A88 /* DocumentReaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,7 +29,9 @@ struct DocumentsListView: View {
                         LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 115, maximum: 115)), count: 3),
                                   spacing: 10) {
                             ForEach(viewModel.documents) { document in
-                                DocumentsListViewCell(document: document)
+                                NavigationLink(destination: DocumentReaderView(document: document)) {
+                                    DocumentsListViewCell(document: document)
+                                }
                             }
                         }
                                   .padding(10)
@@ -54,10 +56,21 @@ struct DocumentsListView: View {
             .sheet(isPresented: $showImagePicker) {
                 ImagePicker {
                     showImagePicker = false
+                    viewModel.showDocumentReader = false
                 } didFinish: { images in
                     showImagePicker = false
                     viewModel.selectedImages = images
                     askDocumentName = true
+                }
+            }
+            .background {
+                if let createdDocument = viewModel.createdDocument {
+                    NavigationLink(
+                        destination: DocumentReaderView(document: createdDocument),
+                        isActive: $viewModel.showDocumentReader
+                    ) {
+                        EmptyView()
+                    }
                 }
             }
             .alert("Document Name", isPresented: $askDocumentName) {

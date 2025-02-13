@@ -11,6 +11,8 @@ class DocumentsListViewModel: ObservableObject {
     @Published var documents: [Document] = []
     @Published var selectedImages: [UIImage] = []
     @State var documentName: String = "New Document"
+    @Published var showDocumentReader = false
+    @Published var createdDocument: Document? = nil
     
     init() {
         loadMockData()
@@ -35,6 +37,8 @@ class DocumentsListViewModel: ObservableObject {
             await MainActor.run {
                 self.documents.append(newDocument)
                 self.documentName = documentName
+                self.createdDocument = newDocument
+                self.showDocumentReader = true
             }
         }
     }
