@@ -17,6 +17,8 @@
 		F21FE8122D5E444D00821A88 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8112D5E444D00821A88 /* Document.swift */; };
 		F21FE8152D5E446900821A88 /* Formatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8142D5E446900821A88 /* Formatter.swift */; };
 		F21FE8172D5E450C00821A88 /* DocumentsListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8162D5E450C00821A88 /* DocumentsListViewCell.swift */; };
+		F21FE81F2D5E512B00821A88 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE81E2D5E512B00821A88 /* ImagePicker.swift */; };
+		F21FE8212D5E52FE00821A88 /* DocumentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8202D5E52FE00821A88 /* DocumentPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,8 @@
 		F21FE8112D5E444D00821A88 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
 		F21FE8142D5E446900821A88 /* Formatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Formatter.swift; sourceTree = "<group>"; };
 		F21FE8162D5E450C00821A88 /* DocumentsListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentsListViewCell.swift; sourceTree = "<group>"; };
+		F21FE81E2D5E512B00821A88 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		F21FE8202D5E52FE00821A88 /* DocumentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPage.swift; sourceTree = "<group>"; };
 		F243F3C82D5CA9BB002DA6F9 /* PDFReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -55,6 +59,7 @@
 		F21FE8022D5E329E00821A88 /* PDFReader */ = {
 			isa = PBXGroup;
 			children = (
+				F21FE8192D5E50CD00821A88 /* UIKitComponents */,
 				F21FE8132D5E446000821A88 /* Extensions */,
 				F21FE8102D5E42FE00821A88 /* Models */,
 				F21FE8072D5E32A200821A88 /* Views */,
@@ -97,6 +102,7 @@
 			isa = PBXGroup;
 			children = (
 				F21FE8112D5E444D00821A88 /* Document.swift */,
+				F21FE8202D5E52FE00821A88 /* DocumentPage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -107,6 +113,14 @@
 				F21FE8142D5E446900821A88 /* Formatter.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		F21FE8192D5E50CD00821A88 /* UIKitComponents */ = {
+			isa = PBXGroup;
+			children = (
+				F21FE81E2D5E512B00821A88 /* ImagePicker.swift */,
+			);
+			path = UIKitComponents;
 			sourceTree = "<group>";
 		};
 		F243F3BF2D5CA9BB002DA6F9 = {
@@ -201,6 +215,8 @@
 				F21FE8032D5E329E00821A88 /* DocumentsListView.swift in Sources */,
 				F21FE80A2D5E32FB00821A88 /* WelcomeView.swift in Sources */,
 				F21FE8122D5E444D00821A88 /* Document.swift in Sources */,
+				F21FE8212D5E52FE00821A88 /* DocumentPage.swift in Sources */,
+				F21FE81F2D5E512B00821A88 /* ImagePicker.swift in Sources */,
 				F21FE8152D5E446900821A88 /* Formatter.swift in Sources */,
 				F21FE8042D5E329E00821A88 /* PDFReaderApp.swift in Sources */,
 				F21FE80F2D5E42F600821A88 /* DocumentsListViewModel.swift in Sources */,

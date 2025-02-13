@@ -11,6 +11,8 @@ struct DocumentsListView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch = true
     
     @StateObject private var viewModel = DocumentsListViewModel()
+    @State private var showImagePicker = false
+    @State private var askDocumentName: Bool = false
     
     var body: some View {
         NavigationView {
@@ -33,7 +35,9 @@ struct DocumentsListView: View {
                                   .padding(10)
                     }
                 }
+                
                 Button {
+                    showImagePicker.toggle()
                 } label: {
                     Text("Generate PDF")
                         .font(.title3)
@@ -47,7 +51,23 @@ struct DocumentsListView: View {
                 .padding(.bottom, 25)
             }
             .navigationTitle("Documents")
-            .background(.white)
+            .sheet(isPresented: $showImagePicker) {
+                ImagePicker {
+                    showImagePicker = false
+                } didFinish: { images in
+                    showImagePicker = false
+                    viewModel.selectedImages = images
+                    askDocumentName = true
+                }
+            }
+            .alert("Document Name", isPresented: $askDocumentName) {
+                TextField("New Document", text: $viewModel.documentName)
+                
+                Button("Save") {
+                    viewModel.createDocument()
+                }
+                .disabled(viewModel.documentName.isEmpty)
+            }
         }
         .sheet(isPresented: $isFirstLaunch) {
             WelcomeView()
