@@ -13,6 +13,7 @@ struct DocumentReaderView: View {
     @State private var currentPageIndex: Int = 0
     @State private var showSaveAlert = false
     @State private var saveSuccess = false
+    @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         if let pages = document.pages?.sorted(by: { $0.pageIndex < $1.pageIndex}) {
@@ -66,7 +67,7 @@ struct DocumentReaderView: View {
                     Spacer()
                     
                     Button {
-                        
+                        deletePage()
                     } label: {
                         Image(systemName: "trash.fill")
                             .font(.title3)
@@ -76,7 +77,19 @@ struct DocumentReaderView: View {
                 .padding([.horizontal, .bottom], 15)
             }
         }
+    }
+    
+    private func deletePage() {
+        guard let _ = document.pages else { return }
         
+        document.pages?.remove(at: currentPageIndex)
+        
+        if currentPageIndex == currentPageIndex {
+            currentPageIndex = max(0, currentPageIndex - 1 )
+        }
+        if document.pages?.isEmpty == true {
+            presentationMode.wrappedValue.dismiss()
+        }
     }
 }
 
