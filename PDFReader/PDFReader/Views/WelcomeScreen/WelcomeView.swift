@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @AppStorage("isFirstLaunch") private var isFirstLaunch: Bool = true
+    @AppStorage("isFirstLaunch") private var isFirstLaunch = true
     
     var body: some View {
         ZStack {
@@ -18,6 +18,7 @@ struct WelcomeView: View {
                 Text("Welcome to \nPDFReader")
                     .font(.largeTitle.bold())
                     .multilineTextAlignment(.center)
+                    .foregroundStyle(.black)
                     .padding(.top, 50)
                     .padding(.bottom, 50)
                 

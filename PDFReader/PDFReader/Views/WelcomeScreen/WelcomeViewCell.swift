@@ -19,6 +19,7 @@ struct WelcomeViewCell: View {
                 .frame(width: 50, height: 50)
             
             Text(title)
+                .foregroundStyle(.black)
         }
         .padding(.leading)
     }
