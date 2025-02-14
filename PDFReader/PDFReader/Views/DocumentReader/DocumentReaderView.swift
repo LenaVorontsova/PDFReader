@@ -13,6 +13,8 @@ struct DocumentReaderView: View {
     @State private var currentPageIndex: Int = 0
     @State private var showSaveAlert = false
     @State private var saveSuccess = false
+    @State private var showShareSheet = false
+    @State private var showShareErrorAlert = false
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -37,27 +39,23 @@ struct DocumentReaderView: View {
             
             HStack {
                 Button {
-                    viewModel.createPDF(from: document) { success in
-                        saveSuccess = success
-                        showSaveAlert = true
+                    if let filePath = document.filePath {
+                        let fileURL = URL(fileURLWithPath: filePath)
+                        if FileManager.default.fileExists(atPath: fileURL.path) {
+                            showShareSheet = true
+                            showShareErrorAlert = false
+                        } else {
+                            showShareErrorAlert = true
+                            print("PDF file not found at path: \(filePath)")
+                        }
+                    } else {
+                        showShareErrorAlert = true
+                        print("File path is nil")
                     }
                 } label: {
-                    VStack {
-                        Image(systemName: "square.and.arrow.down")
-                            .font(.title3)
-                            .tint(Color.darkGreen)
-                        
-                        Text("Generate PDF file \nand save")
-                            .font(.footnote)
-                            .foregroundStyle(Color.darkGreen)
-                    }
-                }
-                .alert(isPresented: $showSaveAlert) {
-                    Alert(
-                        title: Text(saveSuccess ? "Success" : "Error"),
-                        message: Text(saveSuccess ? "PDF saved successfully!" : "Failed to save PDF."),
-                        dismissButton: .default(Text("OK"))
-                    )
+                    Image(systemName: "square.and.arrow.up")
+                        .font(.title3)
+                        .foregroundStyle(.white)
                 }
                 
                 Spacer()
@@ -71,6 +69,36 @@ struct DocumentReaderView: View {
                 }
             }
             .padding([.horizontal, .bottom], 15)
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: {
+                    viewModel.createPDF(from: document) { success in
+                        saveSuccess = success
+                        showSaveAlert = true
+                    }
+                }) {
+                    Text("Save")
+                }
+                .alert(isPresented: $showSaveAlert) {
+                    Alert(
+                        title: Text(saveSuccess ? "Success" : "Error"),
+                        message: Text(saveSuccess ? "PDF saved successfully!" : "Failed to save PDF."),
+                        dismissButton: .default(Text("OK"))
+                    )
+                }
+            }
+        }
+        .alert(isPresented: $showShareErrorAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text("Failed to share the file."),
+                dismissButton: .default(Text("OK"))
+            )
+        }
+        .sheet(isPresented: $showShareSheet) {
+            let fileURL = URL(fileURLWithPath: document.filePath ?? "")
+            ActivityView(activityItems: [fileURL])
         }
     }
     
@@ -86,8 +114,4 @@ struct DocumentReaderView: View {
 //            viewModel.saveDocumentToRealm(document)
         }
     }
-}
-
-#Preview {
-    DocumentReaderView(document: Document(name: ""), viewModel: DocumentsListViewModel())
 }
