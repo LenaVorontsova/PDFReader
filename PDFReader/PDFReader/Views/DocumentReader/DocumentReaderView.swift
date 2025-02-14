@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct DocumentReaderView: View {
     @State var document: Document
+    @State private var tempPages: [DocumentPage] = []
     @State var viewModel: DocumentsListViewModel
     @State private var currentPageIndex: Int = 0
     @State private var showSaveAlert = false
@@ -18,12 +20,11 @@ struct DocumentReaderView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        let pages = document.pages.sorted(by: { $0.pageIndex < $1.pageIndex})
         VStack {
             VStack(spacing: 10) {
                 TabView(selection: $currentPageIndex) {
-                    ForEach(pages.indices, id: \.self) {index in
-                        let page = pages[index]
+                    ForEach(tempPages.indices, id: \.self) {index in
+                        let page = tempPages[index]
                         if let image = UIImage(data: page.pageData) {
                             Image(uiImage: image)
                                 .resizable()
@@ -70,12 +71,19 @@ struct DocumentReaderView: View {
             }
             .padding([.horizontal, .bottom], 15)
         }
+        .onAppear {
+            tempPages = document.pages.sorted { $0.pageIndex < $1.pageIndex }
+        }
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
-                    viewModel.createPDF(from: document) { success in
-                        saveSuccess = success
-                        showSaveAlert = true
+                    if viewModel.createdDocument == nil {
+                        self.saveChanges()
+                    } else {
+                        viewModel.createPDF(from: document) { success in
+                            saveSuccess = success
+                            showSaveAlert = true
+                        }
                     }
                 }) {
                     Text("Save")
@@ -103,15 +111,25 @@ struct DocumentReaderView: View {
     }
     
     private func deletePage() {
-        document.pages.remove(at: currentPageIndex)
-        
-        if currentPageIndex == currentPageIndex {
-            currentPageIndex = max(0, currentPageIndex - 1 )
+        guard !tempPages.isEmpty, currentPageIndex < tempPages.count else { return }
+        tempPages.remove(at: currentPageIndex)
+        currentPageIndex = min(currentPageIndex, tempPages.count - 1)
+    }
+
+    private func saveChanges() {
+        guard let realm = document.realm else { return }
+        do {
+            try realm.write {
+                document.pages.removeAll()
+                for (index, page) in tempPages.enumerated() {
+                    page.pageIndex = index
+                    document.pages.append(page)
+                }
+            }
+            saveSuccess = true
+        } catch {
+            saveSuccess = false
         }
-        if document.pages.isEmpty == true {
-            presentationMode.wrappedValue.dismiss()
-        } else {
-//            viewModel.saveDocumentToRealm(document)
-        }
+        showSaveAlert = true
     }
 }
