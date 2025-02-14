@@ -6,9 +6,13 @@
 //
 
 import SwiftUI
+import RealmSwift
 
 struct DocumentsListViewCell: View {
-    let document: Document
+    @ObservedRealmObject var document: Document
+    @EnvironmentObject var viewModel: DocumentsListViewModel
+    @State private var showShareSheet = false
+    @State private var showShareErrorAlert = false
     
     var body: some View {
         VStack {
@@ -44,11 +48,25 @@ struct DocumentsListViewCell: View {
         .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 3))
         .contextMenu {
             Button(action: {
+                if let filePath = document.filePath {
+                    let fileURL = URL(fileURLWithPath: filePath)
+                    if FileManager.default.fileExists(atPath: fileURL.path) {
+                        showShareSheet = true
+                        showShareErrorAlert = false
+                    } else {
+                        showShareErrorAlert = true
+                        print("PDF file not found at path: \(filePath)")
+                    }
+                } else {
+                    showShareErrorAlert = true
+                    print("File path is nil")
+                }
             }) {
                 Label("Share", systemImage: "square.and.arrow.up")
             }
             
             Button(role: .destructive, action: {
+                
             }) {
                 Label("Delete", systemImage: "trash")
             }
@@ -57,6 +75,17 @@ struct DocumentsListViewCell: View {
             }) {
                 Label("Merge", systemImage: "doc.on.doc")
             }
+        }
+        .alert(isPresented: $showShareErrorAlert) {
+            Alert(
+                title: Text("Error"),
+                message: Text("Failed to share the file."),
+                dismissButton: .default(Text("OK"))
+            )
+        }
+        .sheet(isPresented: $showShareSheet) {
+            let fileURL = URL(fileURLWithPath: document.filePath ?? "")
+            ActivityView(activityItems: [fileURL])
         }
     }
 }

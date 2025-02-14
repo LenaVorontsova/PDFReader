@@ -6,25 +6,32 @@
 //
 
 import Foundation
+import RealmSwift
 
-struct Document: Identifiable {
-    var id: String = UUID().uuidString
-    var name: String
-    var filePath: String?
-    var createdAt: Date = Date()
-    var thumbnailData: Data?
-    var pages: [DocumentPage]?
+class Document: Object, Identifiable {
+    @objc dynamic var id: String = UUID().uuidString
+    @objc dynamic var name: String = ""
+    @objc dynamic var filePath: String?
+    @objc dynamic var createdAt: Date = Date()
+    @objc dynamic var thumbnailData: Data?
+    
+    let pages: List<DocumentPage> = List<DocumentPage>()
+    
+    override static func primaryKey() -> String? {
+        return "id"
+    }
+    
+    convenience init(name: String, pages: [DocumentPage]? = nil, filePath: String? = nil, thumbnailData: Data? = nil) {
+        self.init()
+        self.name = name
+        if let pages = pages {
+            self.pages.append(objectsIn: pages)
+        }
+        self.filePath = filePath
+        self.thumbnailData = thumbnailData
+    }
     
     var fileExtension: String {
-        URL(fileURLWithPath: filePath ?? "").pathExtension
-    }
-    
-    init(name: String, pages: [DocumentPage]? = nil) {
-        self.name = name
-        self.pages = pages
-    }
-    
-    mutating func setPages(_ pagesArray: [DocumentPage]) {
-        pages = pagesArray
+        return URL(fileURLWithPath: filePath ?? "").pathExtension
     }
 }

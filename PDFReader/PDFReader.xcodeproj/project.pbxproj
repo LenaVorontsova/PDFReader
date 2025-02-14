@@ -20,7 +20,24 @@
 		F21FE81F2D5E512B00821A88 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE81E2D5E512B00821A88 /* ImagePicker.swift */; };
 		F21FE8212D5E52FE00821A88 /* DocumentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8202D5E52FE00821A88 /* DocumentPage.swift */; };
 		F21FE8242D5E5E7E00821A88 /* DocumentReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8232D5E5E7E00821A88 /* DocumentReaderView.swift */; };
+		F2B8F9222D5E9177000648C9 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8F9212D5E9177000648C9 /* ActivityView.swift */; };
+		F2B8F9252D5E9261000648C9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F2B8F9242D5E9261000648C9 /* RealmSwift */; };
+		F2B8F9262D5E9269000648C9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F2B8F9242D5E9261000648C9 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F2B8F9272D5E9269000648C9 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F2B8F9262D5E9269000648C9 /* RealmSwift in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		F21FE7FD2D5E329E00821A88 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -37,6 +54,7 @@
 		F21FE8202D5E52FE00821A88 /* DocumentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPage.swift; sourceTree = "<group>"; };
 		F21FE8232D5E5E7E00821A88 /* DocumentReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReaderView.swift; sourceTree = "<group>"; };
 		F243F3C82D5CA9BB002DA6F9 /* PDFReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2B8F9212D5E9177000648C9 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -44,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2B8F9252D5E9261000648C9 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -122,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				F21FE81E2D5E512B00821A88 /* ImagePicker.swift */,
+				F2B8F9212D5E9177000648C9 /* ActivityView.swift */,
 			);
 			path = UIKitComponents;
 			sourceTree = "<group>";
@@ -160,6 +180,7 @@
 				F243F3C42D5CA9BB002DA6F9 /* Sources */,
 				F243F3C52D5CA9BB002DA6F9 /* Frameworks */,
 				F243F3C62D5CA9BB002DA6F9 /* Resources */,
+				F2B8F9272D5E9269000648C9 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -167,6 +188,7 @@
 			);
 			name = PDFReader;
 			packageProductDependencies = (
+				F2B8F9242D5E9261000648C9 /* RealmSwift */,
 			);
 			productName = PDFReader;
 			productReference = F243F3C82D5CA9BB002DA6F9 /* PDFReader.app */;
@@ -196,6 +218,9 @@
 			);
 			mainGroup = F243F3BF2D5CA9BB002DA6F9;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				F2B8F9232D5E9261000648C9 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F243F3C92D5CA9BB002DA6F9 /* Products */;
 			projectDirPath = "";
@@ -228,6 +253,7 @@
 				F21FE8122D5E444D00821A88 /* Document.swift in Sources */,
 				F21FE8212D5E52FE00821A88 /* DocumentPage.swift in Sources */,
 				F21FE81F2D5E512B00821A88 /* ImagePicker.swift in Sources */,
+				F2B8F9222D5E9177000648C9 /* ActivityView.swift in Sources */,
 				F21FE8152D5E446900821A88 /* Formatter.swift in Sources */,
 				F21FE8042D5E329E00821A88 /* PDFReaderApp.swift in Sources */,
 				F21FE80F2D5E42F600821A88 /* DocumentsListViewModel.swift in Sources */,
@@ -449,6 +475,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		F2B8F9232D5E9261000648C9 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		F2B8F9242D5E9261000648C9 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = F2B8F9232D5E9261000648C9 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = F243F3C02D5CA9BB002DA6F9 /* Project object */;
 }

@@ -16,79 +16,78 @@ struct DocumentReaderView: View {
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
-        if let pages = document.pages?.sorted(by: { $0.pageIndex < $1.pageIndex}) {
-            VStack {
-                VStack(spacing: 10) {
-                    TabView(selection: $currentPageIndex) {
-                        ForEach(pages.indices, id: \.self) {index in
-                            let page = pages[index]
-                            if let image = UIImage(data: page.pageData) {
-                                Image(uiImage: image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .tag(index)
-                            }
+        let pages = document.pages.sorted(by: { $0.pageIndex < $1.pageIndex})
+        VStack {
+            VStack(spacing: 10) {
+                TabView(selection: $currentPageIndex) {
+                    ForEach(pages.indices, id: \.self) {index in
+                        let page = pages[index]
+                        if let image = UIImage(data: page.pageData) {
+                            Image(uiImage: image)
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .tag(index)
                         }
                     }
-                    .tabViewStyle(.page)
+                }
+                .tabViewStyle(.page)
+            }
+            
+            Spacer()
+            
+            HStack {
+                Button {
+                    viewModel.createPDF(from: document) { success in
+                        if success {
+                            saveSuccess = true
+                        } else {
+                            saveSuccess = false
+                        }
+                        showSaveAlert = true
+                    }
+                } label: {
+                    VStack {
+                        Image(systemName: "square.and.arrow.down")
+                            .font(.title3)
+                            .tint(Color.darkGreen)
+                        
+                        Text("Generate PDF file \nand save")
+                            .font(.footnote)
+                            .foregroundStyle(Color.darkGreen)
+                    }
+                }
+                .alert(isPresented: $showSaveAlert) {
+                    Alert(
+                        title: Text(saveSuccess ? "Success" : "Error"),
+                        message: Text(saveSuccess ? "PDF saved successfully!" : "Failed to save PDF."),
+                        dismissButton: .default(Text("OK"))
+                    )
                 }
                 
                 Spacer()
                 
-                HStack {
-                    Button {
-                        viewModel.createPDF(from: document) { success in
-                            if success {
-                                saveSuccess = true
-                            } else {
-                                saveSuccess = false
-                            }
-                            showSaveAlert = true
-                        }
-                    } label: {
-                        VStack {
-                            Image(systemName: "square.and.arrow.down")
-                                .font(.title3)
-                                .tint(Color.darkGreen)
-                            
-                            Text("Generate PDF file \nand save")
-                                .font(.footnote)
-                                .foregroundStyle(Color.darkGreen)
-                        }
-                    }
-                    .alert(isPresented: $showSaveAlert) {
-                        Alert(
-                            title: Text(saveSuccess ? "Success" : "Error"),
-                            message: Text(saveSuccess ? "PDF saved successfully!" : "Failed to save PDF."),
-                            dismissButton: .default(Text("OK"))
-                        )
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        deletePage()
-                    } label: {
-                        Image(systemName: "trash.fill")
-                            .font(.title3)
-                            .foregroundStyle(.red)
-                    }
+                Button {
+                    deletePage()
+                } label: {
+                    Image(systemName: "trash.fill")
+                        .font(.title3)
+                        .foregroundStyle(.red)
                 }
-                .padding([.horizontal, .bottom], 15)
             }
+            .padding([.horizontal, .bottom], 15)
         }
     }
     
     private func deletePage() {
-        guard let _ = document.pages else { return }
-        
-        document.pages?.remove(at: currentPageIndex)
+        document.pages.remove(at: currentPageIndex)
         
         if currentPageIndex == currentPageIndex {
             currentPageIndex = max(0, currentPageIndex - 1 )
         }
-        if document.pages?.isEmpty == true {
+        if document.pages.isEmpty == true {
             presentationMode.wrappedValue.dismiss()
+        } else {
+//            viewModel.saveDocumentToRealm(document)
         }
     }
 }

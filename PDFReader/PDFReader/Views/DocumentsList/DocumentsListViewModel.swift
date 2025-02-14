@@ -7,6 +7,7 @@
 
 import SwiftUI
 import PDFKit
+import RealmSwift
 
 class DocumentsListViewModel: ObservableObject {
     @Published var documents: [Document] = []
@@ -17,10 +18,14 @@ class DocumentsListViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     
     init() {
-        loadMockData()
+        loadDocuments()
     }
     
-    private func loadMockData() {
+    private func loadDocuments() {
+        let realm = try! Realm()
+        let storedDocuments = realm.objects(Document.self)
+        self.documents = Array(storedDocuments)
+        print(self.documents)
     }
     
     func createDocument() {
@@ -36,12 +41,11 @@ class DocumentsListViewModel: ObservableObject {
                 let documentPage = DocumentPage(pageIndex: index, pageData: pageData)
                 pages.append(documentPage)
             }
-            let newDocument = Document(name: documentName, pages: pages)
+            let thumbnail = selectedImages.first
+            let newDocument = Document(name: documentName, pages: pages, thumbnailData: thumbnail?.jpegData(compressionQuality: 0.7))
             
             await MainActor.run {
                 self.selectedImages.removeAll()
-                self.documents.append(newDocument)
-                self.documentName = documentName
                 self.createdDocument = newDocument
                 self.isLoading = false
                 self.showDocumentReader = true
@@ -49,11 +53,20 @@ class DocumentsListViewModel: ObservableObject {
         }
     }
     
-    func createPDF(from document: Document, completion: @escaping (Bool) -> Void) {
-        guard let pages = document.pages?.sorted(by: { $0.pageIndex < $1.pageIndex}) else {
-            completion(false)
-            return
+    func saveDocumentToRealm(_ document: Document) {
+        do {
+            let realm = try! Realm()
+            try realm.write {
+                realm.add(document)
+            }
+        } catch {
+            print("Error saving document to Realm: \(error)")
         }
+        loadDocuments()
+    }
+    
+    func createPDF(from document: Document, completion: @escaping (Bool) -> Void) {
+        let pages = document.pages.sorted(by: { $0.pageIndex < $1.pageIndex })
         
         isLoading = true
         
@@ -68,15 +81,24 @@ class DocumentsListViewModel: ObservableObject {
                     pdfDocument.insert(pdfPage, at: index)
                 }
             }
-            var pdfURL = FileManager.default.temporaryDirectory
-            let fileName = "\(document.name).pdf"
-            pdfURL = pdfURL.appendingPathComponent(fileName)
             
+            let pdfURL = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString).appendingPathExtension("pdf")
             let saveResult = pdfDocument.write(to: pdfURL)
+            
+            let newDocument = Document(name: document.name,
+                                       pages: pages,
+                                       filePath: "\(pdfURL.path)",
+                                       thumbnailData: document.thumbnailData)
+            
             await MainActor.run {
                 self.isLoading = false
+                self.saveDocumentToRealm(newDocument)
                 completion(saveResult)
             }
         }
+    }
+    
+    func deleteDocument(_ document: Document) {
+        
     }
 }
