@@ -12,10 +12,14 @@ import RealmSwift
 class DocumentsListViewModel: ObservableObject {
     @Published var documents: [Document] = []
     @Published var selectedImages: [UIImage] = []
-    @Published var documentName: String = "New Document"
+    @Published var documentName = "New Document"
     @Published var showDocumentReader = false
     @Published var createdDocument: Document? = nil
-    @Published var isLoading: Bool = false
+    @Published var isLoading = false
+    @Published var selectedDocumentForMerge: Document? = nil
+    @Published var showMergeSelection = false
+    @Published var saveSuccess = false
+    @Published var showSaveAlert = false
     
     init() {
         loadDocuments()
@@ -100,5 +104,34 @@ class DocumentsListViewModel: ObservableObject {
     
     func deleteDocument(_ document: Document) {
         
+    }
+    
+    func mergeDocuments(firstDocument: Document, secondDocument: Document) {
+        var mergedPages: [DocumentPage] = []
+        
+        for (index, page) in firstDocument.pages.enumerated() {
+            let documentPage = DocumentPage(pageIndex: index, pageData: page.pageData)
+            mergedPages.append(documentPage)
+        }
+        
+        for (index, page) in secondDocument.pages.enumerated() {
+            let documentPage = DocumentPage(pageIndex: index, pageData: page.pageData)
+            mergedPages.append(documentPage)
+        }
+        
+        let mergedDocument = Document(
+            name: "Merged Document",
+            pages: Array(mergedPages),
+            thumbnailData: firstDocument.thumbnailData ?? secondDocument.thumbnailData
+        )
+        
+        createPDF(from: mergedDocument) { [weak self] success in
+            guard let self = self else { return }
+            self.saveSuccess = success
+            showSaveAlert = true
+        }
+        
+        selectedDocumentForMerge = nil
+        showMergeSelection = false
     }
 }

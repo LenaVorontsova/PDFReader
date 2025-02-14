@@ -72,6 +72,8 @@ struct DocumentsListViewCell: View {
             }
             
             Button(action: {
+                viewModel.selectedDocumentForMerge = document
+                viewModel.showMergeSelection = true
             }) {
                 Label("Merge", systemImage: "doc.on.doc")
             }

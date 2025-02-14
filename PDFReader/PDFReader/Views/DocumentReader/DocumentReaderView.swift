@@ -38,11 +38,7 @@ struct DocumentReaderView: View {
             HStack {
                 Button {
                     viewModel.createPDF(from: document) { success in
-                        if success {
-                            saveSuccess = true
-                        } else {
-                            saveSuccess = false
-                        }
+                        saveSuccess = success
                         showSaveAlert = true
                     }
                 } label: {

@@ -87,14 +87,32 @@ struct DocumentsListView: View {
                 }
                 .disabled(viewModel.documentName.isEmpty)
             }
-                   .alert(Text("You must allow access to the gallery"),
-                          isPresented: $showPrivacyAlert) {
-                       
-                   }
         }
+        .alert(Text("You must allow access to the gallery"),
+               isPresented: $showPrivacyAlert) {
+            
+        }
+               .alert(isPresented: $viewModel.showSaveAlert) {
+                   Alert(
+                    title: Text(viewModel.saveSuccess ? "Success" : "Error"),
+                    message: Text(viewModel.saveSuccess ? "PDF saved successfully!" : "Failed to save PDF."),
+                    dismissButton: .default(Text("OK"))
+                   )
+               }
         .sheet(isPresented: $isFirstLaunch) {
             WelcomeView()
                 .interactiveDismissDisabled()
+        }
+        .sheet(isPresented: $viewModel.showMergeSelection) {
+            if let firstDocument = viewModel.selectedDocumentForMerge {
+                DocumentSelectionView(
+                    documents: viewModel.documents.filter { $0.id != firstDocument.id },
+                    onSelect: { secondDocument in
+                        viewModel.mergeDocuments(firstDocument: firstDocument,
+                                                 secondDocument: secondDocument)
+                    }
+                )
+            }
         }
     }
     

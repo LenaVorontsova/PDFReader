@@ -20,6 +20,7 @@
 		F21FE81F2D5E512B00821A88 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE81E2D5E512B00821A88 /* ImagePicker.swift */; };
 		F21FE8212D5E52FE00821A88 /* DocumentPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8202D5E52FE00821A88 /* DocumentPage.swift */; };
 		F21FE8242D5E5E7E00821A88 /* DocumentReaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F21FE8232D5E5E7E00821A88 /* DocumentReaderView.swift */; };
+		F257146C2D5F5EA7006C7AA7 /* DocumentSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F257146B2D5F5EA7006C7AA7 /* DocumentSelectionView.swift */; };
 		F2B8F9222D5E9177000648C9 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2B8F9212D5E9177000648C9 /* ActivityView.swift */; };
 		F2B8F9252D5E9261000648C9 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F2B8F9242D5E9261000648C9 /* RealmSwift */; };
 		F2B8F9262D5E9269000648C9 /* RealmSwift in Embed Frameworks */ = {isa = PBXBuildFile; productRef = F2B8F9242D5E9261000648C9 /* RealmSwift */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
@@ -54,6 +55,7 @@
 		F21FE8202D5E52FE00821A88 /* DocumentPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentPage.swift; sourceTree = "<group>"; };
 		F21FE8232D5E5E7E00821A88 /* DocumentReaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentReaderView.swift; sourceTree = "<group>"; };
 		F243F3C82D5CA9BB002DA6F9 /* PDFReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PDFReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F257146B2D5F5EA7006C7AA7 /* DocumentSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentSelectionView.swift; sourceTree = "<group>"; };
 		F2B8F9212D5E9177000648C9 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -94,6 +96,7 @@
 		F21FE8072D5E32A200821A88 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				F257146A2D5F5E9D006C7AA7 /* DocumentSelection */,
 				F21FE8222D5E5E6E00821A88 /* DocumentReader */,
 				F21FE80D2D5E419200821A88 /* DocumentsList */,
 				F21FE8082D5E32B200821A88 /* WelcomeScreen */,
@@ -168,6 +171,14 @@
 				F243F3C82D5CA9BB002DA6F9 /* PDFReader.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F257146A2D5F5E9D006C7AA7 /* DocumentSelection */ = {
+			isa = PBXGroup;
+			children = (
+				F257146B2D5F5EA7006C7AA7 /* DocumentSelectionView.swift */,
+			);
+			path = DocumentSelection;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -253,6 +264,7 @@
 				F21FE8122D5E444D00821A88 /* Document.swift in Sources */,
 				F21FE8212D5E52FE00821A88 /* DocumentPage.swift in Sources */,
 				F21FE81F2D5E512B00821A88 /* ImagePicker.swift in Sources */,
+				F257146C2D5F5EA7006C7AA7 /* DocumentSelectionView.swift in Sources */,
 				F2B8F9222D5E9177000648C9 /* ActivityView.swift in Sources */,
 				F21FE8152D5E446900821A88 /* Formatter.swift in Sources */,
 				F21FE8042D5E329E00821A88 /* PDFReaderApp.swift in Sources */,
