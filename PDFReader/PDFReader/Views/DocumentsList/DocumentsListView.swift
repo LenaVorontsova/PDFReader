@@ -19,100 +19,112 @@ struct DocumentsListView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
-                if viewModel.documents.isEmpty {
-                    Spacer()
-                    
-                    Text("Documents list is empty")
-                        .font(.title3)
-                    
-                    Spacer()
-                } else {
-                    ScrollView {
-                        LazyVGrid(columns: Array(repeating: GridItem(.adaptive(minimum: 115, maximum: 115)), count: 3),
-                                  spacing: 10) {
-                            ForEach(viewModel.documents) { document in
-                                NavigationLink(destination: DocumentReaderView(document: document,
-                                                                               viewModel: viewModel)) {
-                                    DocumentsListViewCell(document: document)
-                                        .environmentObject(viewModel)
+            ZStack {
+                Color(.back)
+                    .ignoresSafeArea()
+                
+                VStack {
+                    if viewModel.documents.isEmpty {
+                        Spacer()
+                        
+                        Text("Documents list is empty")
+                            .font(.title3)
+                            .foregroundStyle(.text)
+                        
+                        Spacer()
+                    } else {
+                        ScrollView {
+                            LazyVGrid(columns: Array(repeating: GridItem(.fixed(115)), count: 3),
+                                      spacing: 10) {
+                                ForEach(viewModel.documents) { document in
+                                    NavigationLink(destination: DocumentReaderView(document: document,
+                                                                                   viewModel: viewModel)) {
+                                        DocumentsListViewCell(document: document)
+                                            .environmentObject(viewModel)
+                                    }
                                 }
                             }
+                                      .padding(10)
                         }
-                                  .padding(10)
                     }
-                }
-                
-                Button {
-                    requestPhotoLibraryAccess()
-                } label: {
-                    Text("Generate PDF")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .frame(width: 260, height: 50)
-                        .foregroundStyle(.white)
-                        .background(Color("darkGreen"))
-                        .clipShape(RoundedRectangle(cornerRadius: 10))
                     
+                    Button {
+                        requestPhotoLibraryAccess()
+                    } label: {
+                        Text("Generate PDF")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .frame(width: 260, height: 50)
+                            .foregroundStyle(.white)
+                            .background(Color.button)
+                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                        
+                    }
+                    .padding(.bottom, 25)
                 }
-                .padding(.bottom, 25)
-            }
-            .navigationTitle("Documents")
-            .sheet(isPresented: $showImagePicker) {
-                ImagePicker {
-                    showImagePicker = false
-                    viewModel.showDocumentReader = false
-                } didFinish: { images in
-                    showImagePicker = false
-                    viewModel.selectedImages = images
-                    askDocumentName = true
-                }
-            }
-            .background {
-                if let createdDocument = viewModel.createdDocument {
-                    NavigationLink(
-                        destination: DocumentReaderView(document: createdDocument, viewModel: viewModel),
-                        isActive: $viewModel.showDocumentReader
-                    ) {
-                        EmptyView()
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("Documents")
+                            .foregroundColor(.text)
+                            .font(.largeTitle.bold())
                     }
                 }
+                .sheet(isPresented: $showImagePicker) {
+                    ImagePicker {
+                        showImagePicker = false
+                        viewModel.showDocumentReader = false
+                    } didFinish: { images in
+                        showImagePicker = false
+                        viewModel.selectedImages = images
+                        askDocumentName = true
+                    }
+                }
+                .background {
+                    if let createdDocument = viewModel.createdDocument {
+                        NavigationLink(
+                            destination: DocumentReaderView(document: createdDocument, viewModel: viewModel),
+                            isActive: $viewModel.showDocumentReader
+                        ) {
+                            EmptyView()
+                        }
+                    }
+                }
+                .alert("Document Name",
+                       isPresented: $askDocumentName) {
+                    TextField("New Document", text: $viewModel.documentName)
+                    
+                    Button("Save") {
+                        viewModel.createDocument()
+                    }
+                    .disabled(viewModel.documentName.isEmpty)
+                }
             }
-            .alert("Document Name",
-                   isPresented: $askDocumentName) {
-                TextField("New Document", text: $viewModel.documentName)
+            .alert(Text("You must allow access to the gallery"),
+                   isPresented: $showPrivacyAlert) {
                 
-                Button("Save") {
-                    viewModel.createDocument()
-                }
-                .disabled(viewModel.documentName.isEmpty)
             }
-        }
-        .alert(Text("You must allow access to the gallery"),
-               isPresented: $showPrivacyAlert) {
-            
-        }
-               .alert(isPresented: $viewModel.showSaveAlert) {
-                   Alert(
-                    title: Text(viewModel.saveSuccess ? "Success" : "Error"),
-                    message: Text(viewModel.saveSuccess ? "PDF saved successfully!" : "Failed to save PDF."),
-                    dismissButton: .default(Text("OK"))
-                   )
-               }
-        .sheet(isPresented: $isFirstLaunch) {
-            WelcomeView()
-                .interactiveDismissDisabled()
-        }
-        .sheet(isPresented: $viewModel.showMergeSelection) {
-            if let firstDocument = viewModel.selectedDocumentForMerge {
-                DocumentSelectionView(
-                    documents: viewModel.documents.filter { $0.id != firstDocument.id },
-                    onSelect: { secondDocument in
-                        viewModel.mergeDocuments(firstDocument: firstDocument,
-                                                 secondDocument: secondDocument)
-                    }
-                )
-            }
+                   .alert(isPresented: $viewModel.showSaveAlert) {
+                       Alert(
+                        title: Text(viewModel.saveSuccess ? "Success" : "Error"),
+                        message: Text(viewModel.saveSuccess ? "PDF saved successfully!" : "Failed to save PDF."),
+                        dismissButton: .default(Text("OK"))
+                       )
+                   }
+                   .sheet(isPresented: $isFirstLaunch) {
+                       WelcomeView()
+                           .interactiveDismissDisabled()
+                   }
+                   .sheet(isPresented: $viewModel.showMergeSelection) {
+                       if let firstDocument = viewModel.selectedDocumentForMerge {
+                           DocumentSelectionView(
+                            documents: viewModel.documents.filter { $0.id != firstDocument.id },
+                            onSelect: { secondDocument in
+                                viewModel.mergeDocuments(firstDocument: firstDocument,
+                                                         secondDocument: secondDocument)
+                            }
+                           )
+                       }
+                   }
         }
     }
     
@@ -135,7 +147,7 @@ struct DocumentsListView: View {
             showImagePicker = true
         }
     }
-
+    
 }
 
 #Preview {

@@ -20,13 +20,15 @@ struct DocumentsListViewCell: View {
                let uiImage = UIImage(data: thumbnailData) {
                 Image(uiImage: uiImage)
                     .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: 50, maxHeight: 50)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(maxHeight: 60)
+                    .clipShape(RoundedRectangle(cornerRadius: 5))
             } else {
                 Image("PDFIcon")
                     .resizable()
                     .scaledToFit()
-                    .frame(height: 50)
+                    .frame(height: 60)
+                    .padding()
             }
             
             Text(document.name)
@@ -45,6 +47,7 @@ struct DocumentsListViewCell: View {
                 .multilineTextAlignment(.center)
         }
         .padding()
+        .frame(width: 115, height: 155)
         .background(RoundedRectangle(cornerRadius: 10).fill(Color.white).shadow(radius: 3))
         .contextMenu {
             Button(action: {

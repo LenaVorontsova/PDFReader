@@ -12,13 +12,14 @@ struct WelcomeView: View {
     
     var body: some View {
         ZStack {
-            Color("lightGreen")
+            Color(.back)
                 .ignoresSafeArea()
+            
             VStack {
                 Text("Welcome to \nPDFReader")
                     .font(.largeTitle.bold())
                     .multilineTextAlignment(.center)
-                    .foregroundStyle(.black)
+                    .foregroundStyle(.text)
                     .padding(.top, 50)
                     .padding(.bottom, 50)
                 
@@ -38,14 +39,13 @@ struct WelcomeView: View {
                 
                 Button {
                     isFirstLaunch = false
-                    
                 } label: {
                     Text("Start")
                         .font(.title3)
                         .fontWeight(.semibold)
                         .frame(width: 260, height: 50)
                         .foregroundStyle(.white)
-                        .background(Color("darkGreen"))
+                        .background(Color.button)
                         .clipShape(RoundedRectangle(cornerRadius: 10))
                     
                 }

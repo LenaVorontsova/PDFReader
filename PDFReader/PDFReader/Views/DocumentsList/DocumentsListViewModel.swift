@@ -29,7 +29,6 @@ class DocumentsListViewModel: ObservableObject {
         let realm = try! Realm()
         let storedDocuments = realm.objects(Document.self)
         self.documents = Array(storedDocuments)
-        print(self.documents)
     }
     
     func createDocument() {

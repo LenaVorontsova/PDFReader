@@ -12,32 +12,39 @@ struct DocumentSelectionView: View {
     let onSelect: (Document) -> Void
 
     var body: some View {
-        List(documents) { document in
-            Button(action: {
-                onSelect(document)
-            }) {
-                HStack {
-                    if let thumbnailData = document.thumbnailData,
-                       let uiImage = UIImage(data: thumbnailData) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(maxWidth: 50, maxHeight: 50)
-                    } else {
-                        Image("PDFIcon")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(height: 50)
+        ZStack {
+            Color(.back)
+                .ignoresSafeArea()
+            
+            List(documents) { document in
+                Button(action: {
+                    onSelect(document)
+                }) {
+                    HStack {
+                        if let thumbnailData = document.thumbnailData,
+                           let uiImage = UIImage(data: thumbnailData) {
+                            Image(uiImage: uiImage)
+                                .resizable()
+                                .scaledToFit()
+                                .frame(maxWidth: 50, maxHeight: 50)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                        } else {
+                            Image("PDFIcon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 50)
+                        }
+                        
+                        Text(document.name)
+                            .font(.title2)
+                            .foregroundStyle(.black)
+                            .foregroundStyle(.text)
+                        
+                        Spacer()
                     }
-                    
-                    Text(document.name)
-                        .font(.title2)
-                        .foregroundStyle(.black)
-                    
-                    Spacer()
                 }
             }
+            .navigationTitle("Select Document to Merge")
         }
-        .navigationTitle("Select Document to Merge")
     }
 }
