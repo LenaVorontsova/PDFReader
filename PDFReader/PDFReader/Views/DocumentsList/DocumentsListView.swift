@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct DocumentsListView: View {
     @AppStorage("isFirstLaunch") private var isFirstLaunch = true
+    @AppStorage("hasRequestedPhotoAccess") private var hasRequestedPhotoAccess = false
     
     @StateObject private var viewModel = DocumentsListViewModel()
     @State private var showImagePicker = false
-    @State private var askDocumentName: Bool = false
+    @State private var askDocumentName = false
+    @State private var showPrivacyAlert = false
     
     var body: some View {
         NavigationView {
@@ -41,7 +44,7 @@ struct DocumentsListView: View {
                 }
                 
                 Button {
-                    showImagePicker.toggle()
+                    requestPhotoLibraryAccess()
                 } label: {
                     Text("Generate PDF")
                         .font(.title3)
@@ -75,7 +78,8 @@ struct DocumentsListView: View {
                     }
                 }
             }
-            .alert("Document Name", isPresented: $askDocumentName) {
+            .alert("Document Name",
+                   isPresented: $askDocumentName) {
                 TextField("New Document", text: $viewModel.documentName)
                 
                 Button("Save") {
@@ -83,12 +87,37 @@ struct DocumentsListView: View {
                 }
                 .disabled(viewModel.documentName.isEmpty)
             }
+                   .alert(Text("You must allow access to the gallery"),
+                          isPresented: $showPrivacyAlert) {
+                       
+                   }
         }
         .sheet(isPresented: $isFirstLaunch) {
             WelcomeView()
                 .interactiveDismissDisabled()
         }
     }
+    
+    private func requestPhotoLibraryAccess() {
+        if !hasRequestedPhotoAccess {
+            PHPhotoLibrary.requestAuthorization { status in
+                DispatchQueue.main.async {
+                    if status == .authorized {
+                        showImagePicker = true
+                        showPrivacyAlert = false
+                        hasRequestedPhotoAccess = true
+                    } else {
+                        showImagePicker = false
+                        showPrivacyAlert = true
+                        hasRequestedPhotoAccess = false
+                    }
+                }
+            }
+        } else {
+            showImagePicker = true
+        }
+    }
+
 }
 
 #Preview {
