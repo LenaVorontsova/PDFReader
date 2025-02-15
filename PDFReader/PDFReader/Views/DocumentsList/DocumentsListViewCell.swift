@@ -13,6 +13,7 @@ struct DocumentsListViewCell: View {
     @EnvironmentObject var viewModel: DocumentsListViewModel
     @State private var showShareSheet = false
     @State private var showShareErrorAlert = false
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         VStack {
@@ -69,7 +70,8 @@ struct DocumentsListViewCell: View {
             }
             
             Button(role: .destructive, action: {
-                
+                dismiss()
+                viewModel.deleteDocument(document.id)
             }) {
                 Label("Delete", systemImage: "trash")
             }

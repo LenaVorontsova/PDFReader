@@ -101,8 +101,27 @@ class DocumentsListViewModel: ObservableObject {
         }
     }
     
-    func deleteDocument(_ document: Document) {
+    func deleteDocument(_ id: String) {
+        documents = documents.filter { $0.id != id }
         
+        Task(priority: .high) {
+            await MainActor.run {
+                let realm = try! Realm()
+                
+                if let documentToDelete = realm.object(ofType: Document.self, forPrimaryKey: id) {
+                    try! realm.write {
+                        if let filePath = documentToDelete.filePath {
+                            let fileURL = URL(fileURLWithPath: filePath)
+                            try? FileManager.default.removeItem(at: fileURL)
+                        }
+                        
+                        realm.delete(documentToDelete)
+                    }
+                } else {
+                    print("Document not found in Realm")
+                }
+            }
+        }
     }
     
     func mergeDocuments(firstDocument: Document, secondDocument: Document) {
