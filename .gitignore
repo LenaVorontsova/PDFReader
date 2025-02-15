@@ -5,6 +5,12 @@
 ## User settings
 xcuserdata/
 
+## OS X temporary files
+*.DS_Store
+*.swp
+*.lock
+*.xcodeproj/xcshareddata/
+
 ## Obj-C/Swift specific
 *.hmap
 
