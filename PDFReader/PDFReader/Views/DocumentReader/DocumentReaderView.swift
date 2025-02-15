@@ -82,7 +82,10 @@ struct DocumentReaderView: View {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {
                         if viewModel.createdDocument == nil {
-                            self.saveChanges()
+                            viewModel.saveChanges(id: document.id, tempPages: tempPages) { success in
+                                saveSuccess = success
+                                showSaveAlert = true
+                            }
                         } else {
                             viewModel.createPDF(from: document) { success in
                                 saveSuccess = success
@@ -120,22 +123,5 @@ struct DocumentReaderView: View {
         guard !tempPages.isEmpty, currentPageIndex < tempPages.count else { return }
         tempPages.remove(at: currentPageIndex)
         currentPageIndex = min(currentPageIndex, tempPages.count - 1)
-    }
-
-    private func saveChanges() {
-        guard let realm = document.realm else { return }
-        do {
-            try realm.write {
-                document.pages.removeAll()
-                for (index, page) in tempPages.enumerated() {
-                    page.pageIndex = index
-                    document.pages.append(page)
-                }
-            }
-            saveSuccess = true
-        } catch {
-            saveSuccess = false
-        }
-        showSaveAlert = true
     }
 }

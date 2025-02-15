@@ -95,6 +95,7 @@ class DocumentsListViewModel: ObservableObject {
             
             await MainActor.run {
                 self.isLoading = false
+                self.createdDocument = nil
                 self.saveDocumentToRealm(newDocument)
                 completion(saveResult)
             }
@@ -151,5 +152,28 @@ class DocumentsListViewModel: ObservableObject {
         
         selectedDocumentForMerge = nil
         showMergeSelection = false
+    }
+    
+    // FIXME: Fix document editing immediately after creation
+    func saveChanges(id: String, tempPages: [DocumentPage], completion: @escaping (Bool) -> Void) {
+        Task { @MainActor in
+            var saveSuccess = false
+            do {
+                let realm = try! Realm()
+                if let documentToDelete = realm.object(ofType: Document.self, forPrimaryKey: id) {
+                    try realm.write {
+                        documentToDelete.pages.removeAll()
+                        for (index, page) in tempPages.enumerated() {
+                            page.pageIndex = index
+                            documentToDelete.pages.append(page)
+                        }
+                    }
+                    saveSuccess = true
+                }
+            } catch {
+                saveSuccess = false
+            }
+            completion(saveSuccess)
+        }
     }
 }
